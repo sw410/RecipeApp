@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<recipes>
+    <recipetypes>
+        <type>Beef</type>
+        <type>Beverages</type>
+        <type>Bread</type>
+        <type>Chicken</type>
+        <type>Dessert</type>
+        <type>Pasta</type>
+        <type>Vegetarian</type>
+    </recipetypes>
+</recipes>

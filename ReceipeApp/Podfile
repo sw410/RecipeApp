@@ -1,0 +1,31 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'ReceipeApp' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for ReceipeApp
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'R.swift'
+  pod 'RxSwift', '~> 5'
+  pod 'RxCocoa', '~> 5'
+  pod 'IQKeyboardManagerSwift', '~> 6.2.0'
+  pod 'TLPhotoPicker'
+  pod 'IBAnimatable'
+  pod "RxRealm", '4.0.3'
+  pod 'NSObject+Rx'
+  pod 'DZNEmptyDataSet', '~> 1.8.1'
+  pod 'RxDataSources', '~> 4.0'
+  pod 'AEXML'
+
+  target 'ReceipeAppTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'ReceipeAppUITests' do
+    # Pods for testing
+  end
+
+end
