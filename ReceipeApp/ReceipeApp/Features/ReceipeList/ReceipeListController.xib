@@ -13,16 +13,12 @@
         <array key="Poppins-Bold.ttf">
             <string>Poppins-Bold</string>
         </array>
-        <array key="Poppins-Regular.ttf">
-            <string>Poppins-Regular</string>
-        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReceipeListController" customModule="ReceipeApp" customModuleProvider="target">
             <connections>
                 <outlet property="addBtn" destination="Lmq-Qp-OEf" id="hl7-gf-p6K"/>
-                <outlet property="filterBtn" destination="au8-y1-9fE" id="jAn-W0-6Jg"/>
-                <outlet property="searchView" destination="kGp-IW-gai" id="PM5-cK-3hW"/>
+                <outlet property="filterBtn" destination="y0J-ZG-Gp5" id="LsJ-68-iUs"/>
                 <outlet property="tableView" destination="N4u-Nk-CKs" id="AUL-oH-6cq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -32,106 +28,60 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Library" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nc1-cv-oCa">
-                    <rect key="frame" x="20" y="44" width="324" height="45"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nc1-cv-oCa">
+                    <rect key="frame" x="20" y="44" width="285" height="45"/>
                     <fontDescription key="fontDescription" name="Poppins-Bold" family="Poppins" pointSize="32"/>
                     <color key="textColor" name="black"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGp-IW-gai" customClass="AnimatableView" customModule="IBAnimatable">
-                    <rect key="frame" x="20" y="105" width="374" height="50"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="au8-y1-9fE" customClass="AnimatableButton" customModule="IBAnimatable">
-                            <rect key="frame" x="324" y="0.0" width="50" height="50"/>
-                            <color key="backgroundColor" red="0.14117647058823529" green="0.65490196078431373" blue="0.58039215686274515" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="50" id="CZ0-pm-Pfs"/>
-                            </constraints>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="ic_filter"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="10"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </button>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="searchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="UpU-Pb-NTf">
-                            <rect key="frame" x="13" y="17" width="16" height="16"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="16" id="hX9-PX-DEr"/>
-                                <constraint firstAttribute="height" constant="16" id="v1b-md-e9y"/>
-                            </constraints>
-                        </imageView>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NAZ-OZ-cX4">
-                            <rect key="frame" x="42" y="0.0" width="266" height="50"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="textColor" name="black"/>
-                            <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstItem="UpU-Pb-NTf" firstAttribute="leading" secondItem="kGp-IW-gai" secondAttribute="leading" constant="13" id="Rfa-5R-VC7"/>
-                        <constraint firstAttribute="trailing" secondItem="au8-y1-9fE" secondAttribute="trailing" id="UJh-qN-1Ro"/>
-                        <constraint firstItem="NAZ-OZ-cX4" firstAttribute="top" secondItem="kGp-IW-gai" secondAttribute="top" id="aCB-UL-78Z"/>
-                        <constraint firstItem="au8-y1-9fE" firstAttribute="top" secondItem="kGp-IW-gai" secondAttribute="top" id="b6u-By-5h2"/>
-                        <constraint firstAttribute="bottom" secondItem="au8-y1-9fE" secondAttribute="bottom" id="bkp-FV-EGW"/>
-                        <constraint firstItem="UpU-Pb-NTf" firstAttribute="centerY" secondItem="kGp-IW-gai" secondAttribute="centerY" id="gf2-g9-Cpx"/>
-                        <constraint firstAttribute="bottom" secondItem="NAZ-OZ-cX4" secondAttribute="bottom" id="h7w-qj-E1y"/>
-                        <constraint firstAttribute="height" constant="50" id="hPp-if-Rda"/>
-                        <constraint firstItem="NAZ-OZ-cX4" firstAttribute="leading" secondItem="UpU-Pb-NTf" secondAttribute="trailing" constant="13" id="l9k-qk-7ZS"/>
-                        <constraint firstItem="au8-y1-9fE" firstAttribute="leading" secondItem="NAZ-OZ-cX4" secondAttribute="trailing" constant="16" id="psY-3l-jVZ"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="10"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="N4u-Nk-CKs">
-                    <rect key="frame" x="0.0" y="175" width="414" height="687"/>
+                    <rect key="frame" x="0.0" y="101" width="414" height="761"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmq-Qp-OEf">
-                    <rect key="frame" x="364" y="52" width="30" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="Kg3-Ls-r54"/>
-                        <constraint firstAttribute="width" constant="30" id="eG5-gb-Ngy"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" image="ic_add"/>
-                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Qr0-WX-Q2c">
+                    <rect key="frame" x="318" y="52" width="76" height="30"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmq-Qp-OEf">
+                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="Kg3-Ls-r54"/>
+                                <constraint firstAttribute="width" constant="30" id="eG5-gb-Ngy"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="ic_add"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0J-ZG-Gp5">
+                            <rect key="frame" x="46" y="0.0" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="jSJ-bC-woK"/>
+                                <constraint firstAttribute="width" constant="30" id="px5-lf-d6K"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" image="ic_filter"/>
+                        </button>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="N4u-Nk-CKs" secondAttribute="trailing" id="4hp-bk-tum"/>
-                <constraint firstItem="kGp-IW-gai" firstAttribute="top" secondItem="nc1-cv-oCa" secondAttribute="bottom" constant="16" id="DTA-OO-mfH"/>
                 <constraint firstItem="nc1-cv-oCa" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="FZl-PN-BTz"/>
-                <constraint firstItem="Lmq-Qp-OEf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="JSd-ei-gFn"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="N4u-Nk-CKs" secondAttribute="bottom" id="UWK-Vm-lsg"/>
+                <constraint firstItem="Qr0-WX-Q2c" firstAttribute="leading" secondItem="nc1-cv-oCa" secondAttribute="trailing" constant="13" id="YXa-da-DLU"/>
                 <constraint firstItem="nc1-cv-oCa" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="b4y-aJ-Uw9"/>
-                <constraint firstItem="Lmq-Qp-OEf" firstAttribute="leading" secondItem="nc1-cv-oCa" secondAttribute="trailing" constant="20" id="eZA-xH-o7S"/>
-                <constraint firstItem="N4u-Nk-CKs" firstAttribute="top" secondItem="kGp-IW-gai" secondAttribute="bottom" constant="20" id="gda-hn-n5Z"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Lmq-Qp-OEf" secondAttribute="trailing" constant="20" id="hKO-Z1-Ecx"/>
                 <constraint firstItem="N4u-Nk-CKs" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="iBx-Dn-VdK"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="kGp-IW-gai" secondAttribute="trailing" constant="20" id="nEm-Sn-9ya"/>
-                <constraint firstItem="kGp-IW-gai" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="pSk-Bb-B0W"/>
+                <constraint firstItem="Qr0-WX-Q2c" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="j6z-du-snp"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Qr0-WX-Q2c" secondAttribute="trailing" constant="20" id="phx-jD-EQo"/>
+                <constraint firstItem="N4u-Nk-CKs" firstAttribute="top" secondItem="nc1-cv-oCa" secondAttribute="bottom" constant="12" id="vdR-Pi-xs6"/>
             </constraints>
             <point key="canvasLocation" x="139" y="117"/>
         </view>
     </objects>
-    <designables>
-        <designable name="au8-y1-9fE">
-            <size key="intrinsicContentSize" width="24" height="24"/>
-        </designable>
-    </designables>
     <resources>
         <image name="ic_add" width="30" height="30"/>
-        <image name="ic_filter" width="24" height="24"/>
-        <image name="searchIcon" width="18" height="18"/>
+        <image name="ic_filter" width="30" height="30"/>
         <namedColor name="black">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

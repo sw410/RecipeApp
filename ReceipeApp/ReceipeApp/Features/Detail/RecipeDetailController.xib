@@ -310,6 +310,11 @@
             <point key="canvasLocation" x="139" y="87"/>
         </view>
     </objects>
+    <designables>
+        <designable name="KKa-eL-AzF">
+            <size key="intrinsicContentSize" width="98" height="32"/>
+        </designable>
+    </designables>
     <resources>
         <namedColor name="black">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

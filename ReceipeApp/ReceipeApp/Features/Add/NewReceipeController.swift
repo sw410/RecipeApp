@@ -34,6 +34,7 @@ class NewReceipeController: BaseViewController {
     @IBOutlet weak var addImageBtn: AnimatableView!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var addImagePlaceholder: UIView!
+    @IBOutlet weak var recipeImageValid: ValidationLabel!
     
     @IBOutlet weak var ingrediantTextView: AnimatableTextView!
     @IBOutlet weak var ingrediantValid: ValidationLabel!
@@ -42,6 +43,8 @@ class NewReceipeController: BaseViewController {
     @IBOutlet weak var stepValid: ValidationLabel!
     @IBOutlet weak var saveBtn: AnimatableButton!
     
+    private var isPickerViewShowing: Bool = false
+    private var currentSelectedRow: Int = 0
     private var toolBar = UIToolbar()
     private var picker  = UIPickerView()
     
@@ -70,24 +73,37 @@ class NewReceipeController: BaseViewController {
     override func makeUI() {
         self.navigationItem.title = "New Recipe"
         
-        self.ingrediantTextView.contentInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        self.stepTextView.contentInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     }
     
     override func bindViewModel() {
         
+        self.vm.recipeImageValid.bind(to: self.recipeImageValid.rx.model).disposed(by: rx.disposeBag)
         self.vm.recipeNameValid.bind(to: self.recipeNameValid.rx.model).disposed(by: rx.disposeBag)
         self.vm.recipeTypeValid.bind(to: self.recipeTypeValid.rx.model).disposed(by: rx.disposeBag)
         self.vm.ingrediantsValid.bind(to: self.ingrediantValid.rx.model).disposed(by: rx.disposeBag)
         self.vm.stepsValid.bind(to: self.stepValid.rx.model).disposed(by: rx.disposeBag)
         
         _ = self.recipeNameTextField.rx.textInput <-> self.vm.recipeName
-//        _ = self.recipeTypeDdlView.textField.rx.textInput <-> self.vm.recipeType
         _ = self.ingrediantTextView.rx.textInput <-> self.vm.ingredients
         _ = self.stepTextView.rx.textInput <-> self.vm.steps
         
         let input = NewRecipeVM.Input(saveRecipeTrigger: self.saveRecipeTrigger)
         let output = self.vm.transform(input: input)
+        
+        output.saveSuccess
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        RecipeManager.shared.recipeTypeList
+            .asObservable()
+            .subscribe(onNext: { [weak self] data in
+                guard let `self` = self else { return }
+                self.recipeTypeDdlView.textValue = data.first
+            })
+            .disposed(by: rx.disposeBag)
         
         
     }
@@ -113,7 +129,9 @@ class NewReceipeController: BaseViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.view.endEditing(true)
-                self.setupFilterView()
+                if !self.isPickerViewShowing {
+                    self.setupFilterView()
+                }
             })
             .disposed(by: rx.disposeBag)
         self.recipeTypeDdlView.containerView.isUserInteractionEnabled = true
@@ -139,20 +157,34 @@ class NewReceipeController: BaseViewController {
         self.picker.setValue(UIColor.black, forKey: "textColor")
         self.picker.autoresizingMask = .flexibleWidth
         self.picker.contentMode = .center
-        self.picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+        self.picker.selectRow(self.currentSelectedRow, inComponent: 0, animated: true)
+        self.picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 350, width: UIScreen.main.bounds.size.width, height: 350)
         self.view.addSubview(self.picker)
                     
-        self.toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 40))
-        self.toolBar.barStyle = .blackTranslucent
-        self.toolBar.items = [UIBarButtonItem.init(title: "Done", style: .done, target: self, action: #selector(self.dismissPickerView))]
+        self.toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 360, width: UIScreen.main.bounds.size.width, height: 40))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.dismissPickerView))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.donePickerView))
+        self.toolBar.items = [cancelButton, spaceButton, doneButton]
+        self.toolBar.sizeToFit()
         self.view.addSubview(self.toolBar)
+        
+        self.isPickerViewShowing = true
     }
     
     @objc func dismissPickerView() {
         self.toolBar.removeFromSuperview()
         self.picker.removeFromSuperview()
+        
+        self.isPickerViewShowing = false
     }
-
+    
+    @objc func donePickerView() {
+        self.toolBar.removeFromSuperview()
+        self.picker.removeFromSuperview()
+        
+        self.isPickerViewShowing = false
+    }
 }
 
 extension NewReceipeController: UIPickerViewDataSource, UIPickerViewDelegate {
@@ -171,6 +203,7 @@ extension NewReceipeController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let model = RecipeManager.shared.recipeTypeList.value[row]
+        self.currentSelectedRow = row
         self.recipeTypeDdlView.textValue = model
     }
     

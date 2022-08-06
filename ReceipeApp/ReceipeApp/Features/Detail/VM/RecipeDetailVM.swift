@@ -17,6 +17,7 @@ class RecipeDetailVM: BaseViewModel, ViewModelType {
     let recipeType: BehaviorRelay<String> = .init(value: "")
     let ingredients: BehaviorRelay<String> = .init(value: "")
     let steps: BehaviorRelay<String> = .init(value: "")
+    let recipeImageData = BehaviorRelay<Data?>.init(value: nil)
     
     let editMode = BehaviorRelay<Bool>.init(value: false)
     let model = BehaviorRelay<Recipe?>.init(value: nil)
@@ -81,13 +82,16 @@ class RecipeDetailVM: BaseViewModel, ViewModelType {
                         autoreleasepool {
                             guard let config = RealmManager.shared.configuration, let backgroundRealm = try? Realm(configuration: config), let recipe = backgroundRealm.resolve(recipeRef) else { return }
                             
-                            print("xxxx \(self.recipeName.value)")
-                            
                             try? backgroundRealm.safeWrite {
                                 recipe.title = self.recipeName.value
                                 recipe.type = self.recipeType.value
                                 recipe.ingrediant = self.ingredients.value
                                 recipe.steps = self.steps.value
+                                
+                                if let imageData = self.recipeImageData.value {
+                                    recipe.receipeImageData = imageData
+                                }
+                                
                             }
                         }
                     }

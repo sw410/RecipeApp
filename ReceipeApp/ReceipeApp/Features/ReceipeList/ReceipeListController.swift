@@ -19,16 +19,16 @@ class ReceipeListController: BaseViewController {
     let filterRecipeList = BehaviorRelay<[Recipe]>.init(value: [])
     let filterTrigger = PublishSubject<Void>()
     
-    @IBOutlet weak var searchView: AnimatableView!
     private var toolBar = UIToolbar()
     private var picker  = UIPickerView()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addBtn: UIButton!
-    @IBOutlet weak var filterBtn: AnimatableButton!
+    @IBOutlet weak var filterBtn: UIButton!
     
     private var isPickerViewShowing: Bool = false
     private var type: String = ""
+    private var currentSelectedRow: Int = 0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,7 +40,6 @@ class ReceipeListController: BaseViewController {
 
         // Do any additional setup after loading the view.
         self.setupTableView()
-        self.makeUI()
         self.bindViewModel()
         self.bindView()
     }
@@ -49,13 +48,6 @@ class ReceipeListController: BaseViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(ReceipeListCell.getNib(), forCellReuseIdentifier: ReceipeListCell.identifier)
-    }
-    
-    override func makeUI() {
-        let filterBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: R.image.ic_filter()?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.openPickerView))
-        self.navigationItem.rightBarButtonItem = filterBarButtonItem
-        
-        self.searchView.dropShadow()
     }
     
     override func bindViewModel() {
@@ -103,6 +95,7 @@ class ReceipeListController: BaseViewController {
         self.picker.setValue(UIColor.black, forKey: "textColor")
         self.picker.autoresizingMask = .flexibleWidth
         self.picker.contentMode = .center
+        self.picker.selectRow(self.currentSelectedRow, inComponent: 0, animated: true)
         self.picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 250, width: UIScreen.main.bounds.size.width, height: 250)
         self.view.addSubview(self.picker)
                     
@@ -161,11 +154,8 @@ extension ReceipeListController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let model = self.vm.recipeTypeList.value[row]
-        if row == 0 {
-            self.type = ""
-        } else {
-            self.type = model
-        }
+        self.currentSelectedRow = row
+        self.type = (row == 0) ? "" : model
     }
     
 }

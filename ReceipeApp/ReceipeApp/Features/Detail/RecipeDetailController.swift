@@ -43,6 +43,11 @@ class RecipeDetailController: BaseViewController {
     
     @IBOutlet weak var deleteBtn: AnimatableButton!
     
+    private var isPickerViewShowing: Bool = false
+    private var currentSelectedRow: Int = 0
+    private var toolBar = UIToolbar()
+    private var picker  = UIPickerView()
+    
     var vm = RecipeDetailVM()
     let deleteTrigger = PublishSubject<Int>()
     let saveTrigger = PublishSubject<Void>()
@@ -72,6 +77,16 @@ class RecipeDetailController: BaseViewController {
     
     override func bindViewModel() {
         
+        RecipeManager.shared.recipeTypeList
+            .asObservable()
+            .subscribe(onNext: { [weak self] data in
+                guard let `self` = self else { return }
+                if let index = data.firstIndex(where: { $0 == self.vm.recipeType.value }) {
+                    self.currentSelectedRow = index
+                }
+            })
+            .disposed(by: rx.disposeBag)
+        
         self.vm.editMode.asObservable()
             .subscribe(onNext: { [weak self] mode in
                 guard let `self` = self else { return }
@@ -88,9 +103,13 @@ class RecipeDetailController: BaseViewController {
                 if mode {
                     let saveBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(self.saveTapped))
                     self.navigationItem.rightBarButtonItem = saveBarButtonItem
+                    
+                    self.recipeImageView.isUserInteractionEnabled = true
                 } else {
                     let editBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(self.editTapped))
                     self.navigationItem.rightBarButtonItem = editBarButtonItem
+                    
+                    self.recipeImageView.isUserInteractionEnabled = false
                 }
                 
             })
@@ -110,9 +129,7 @@ class RecipeDetailController: BaseViewController {
         output.deleteSuccess
             .subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.navigationController?.popViewController(animated: true)
-                }
+                self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: rx.disposeBag)
         
@@ -137,6 +154,17 @@ class RecipeDetailController: BaseViewController {
     }
     
     private func bindView() {
+        
+        let addImageGesture = UITapGestureRecognizer()
+        addImageGesture.numberOfTapsRequired = 1
+        addImageGesture.rx
+            .event
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.showImagePickerOption()
+            })
+            .disposed(by: rx.disposeBag)
+        self.recipeImageView.addGestureRecognizer(addImageGesture)
     
         self.deleteBtn.rx
             .tap
@@ -146,6 +174,44 @@ class RecipeDetailController: BaseViewController {
                 self.showDeleteAlert()
             })
             .disposed(by: rx.disposeBag)
+        
+        let typeGesture = UITapGestureRecognizer()
+        typeGesture.numberOfTapsRequired = 1
+        typeGesture.rx
+            .event
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.view.endEditing(true)
+                if !self.isPickerViewShowing {
+                    self.setupFilterView()
+                }
+            })
+            .disposed(by: rx.disposeBag)
+        self.recipeTypeDropDown.containerView.isUserInteractionEnabled = true
+        self.recipeTypeDropDown.containerView.addGestureRecognizer(typeGesture)
+    }
+    
+    private func setupFilterView() {
+        self.picker = UIPickerView.init()
+        picker.dataSource = self
+        picker.delegate = self
+        self.picker.backgroundColor = UIColor.white
+        self.picker.setValue(UIColor.black, forKey: "textColor")
+        self.picker.autoresizingMask = .flexibleWidth
+        self.picker.contentMode = .center
+        self.picker.selectRow(self.currentSelectedRow, inComponent: 0, animated: true)
+        self.picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 350, width: UIScreen.main.bounds.size.width, height: 350)
+        self.view.addSubview(self.picker)
+                    
+        self.toolBar = UIToolbar.init(frame: CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 360, width: UIScreen.main.bounds.size.width, height: 40))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.dismissPickerView))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.donePickerView))
+        self.toolBar.items = [cancelButton, spaceButton, doneButton]
+        self.toolBar.sizeToFit()
+        self.view.addSubview(self.toolBar)
+    
+        self.isPickerViewShowing = true
     }
     
     private func showDeleteAlert() {
@@ -163,6 +229,115 @@ class RecipeDetailController: BaseViewController {
     
     @objc func saveTapped() {
         self.vm.editMode.accept(false)
+        self.vm.recipeType.accept(self.recipeTypeDropDown.textField.text ?? "")
         self.saveTrigger.onNext(())
     }
+    
+    @objc func dismissPickerView() {
+        self.toolBar.removeFromSuperview()
+        self.picker.removeFromSuperview()
+        
+        self.isPickerViewShowing = false
+    }
+    
+    @objc func donePickerView() {
+        self.toolBar.removeFromSuperview()
+        self.picker.removeFromSuperview()
+        
+        self.isPickerViewShowing = false
+    }
+}
+
+extension RecipeDetailController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return RecipeManager.shared.recipeTypeList.value.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return RecipeManager.shared.recipeTypeList.value[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let model = RecipeManager.shared.recipeTypeList.value[row]
+        self.currentSelectedRow = row
+        self.recipeTypeDropDown.textValue = model
+    }
+    
+}
+
+extension RecipeDetailController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func showImagePickerOption() {
+        let alert = UIAlertController(title: "Select Option", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            self.openCamera()
+        }))
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            self.openGallery()
+        }))
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerController.SourceType.camera
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alert  = UIAlertController(title: "Alert", message: "Please allow ReceipeApp to access to your camera.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallery() {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alert  = UIAlertController(title: "Alert", message: "Please allow ReceipeApp to access your gallery.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        switch picker.sourceType {
+        case .camera:
+            if let image = info[.originalImage] as? UIImage {
+                self.dismiss(animated: true)
+
+                self.recipeImageView.image = image
+                
+                if let imageData = image.jpegData(compressionQuality: 0.7) {
+                    self.vm.recipeImageData.accept(imageData)
+                }
+            }
+        case .savedPhotosAlbum, .photoLibrary:
+            if let image = info[.originalImage] as? UIImage {
+                self.dismiss(animated: true) {
+                    
+                    self.recipeImageView.image = image
+                    
+                    if let imageData = image.jpegData(compressionQuality: 0.7) {
+                        self.vm.recipeImageData.accept(imageData)
+                    }
+                }
+            }
+        @unknown default:
+            fatalError("Could not retrieve anything from photo.")
+        }
+    }
+    
 }

@@ -17,6 +17,7 @@ class NewRecipeVM: BaseViewModel, ViewModelType {
     let ingredients = BehaviorRelay<String>.init(value: "")
     let steps = BehaviorRelay<String>.init(value: "")
     
+    var recipeImageValid: BehaviorRelay<ValidationModel> = BehaviorRelay.init(value: ValidationModel())
     var recipeNameValid: BehaviorRelay<ValidationModel> = BehaviorRelay.init(value: ValidationModel())
     var recipeTypeValid: BehaviorRelay<ValidationModel> = BehaviorRelay.init(value: ValidationModel())
     var ingrediantsValid: BehaviorRelay<ValidationModel> = BehaviorRelay.init(value: ValidationModel())
@@ -27,10 +28,12 @@ class NewRecipeVM: BaseViewModel, ViewModelType {
     }
     
     struct Output {
-        
+        let saveSuccess: PublishSubject<Void>
     }
     
     func transform(input: NewRecipeVM.Input) -> NewRecipeVM.Output {
+        
+        let saveSuccess = PublishSubject<Void>()
         
         input.saveRecipeTrigger
             .subscribe(onNext: { [weak self] _ in
@@ -49,10 +52,12 @@ class NewRecipeVM: BaseViewModel, ViewModelType {
                 recipe.type = self.recipeType.value
                 recipe.receipeImageData = self.recipeImageData.value
                 RealmManager.shared.add([recipe])
+                
+                saveSuccess.onNext(())
             })
             .disposed(by: rx.disposeBag)
         
-        return Output()
+        return Output(saveSuccess: saveSuccess)
     }
     
 }
@@ -97,8 +102,17 @@ extension NewRecipeVM {
             })
             .disposed(by: rx.disposeBag)
         
+        self.recipeImageData
+            .map { $0 != nil }
+            .share(replay: 1)
+            .subscribe(onNext: { [weak self] status in
+                guard let superSelf = self else { return }
+                superSelf.recipeImageValid.accept(ValidationHelper.bindStatus(status: status, message: "Steps cannot be empty"))
+            })
+            .disposed(by: rx.disposeBag)
         
-        return ValidationHelper.validate(validations: [self.recipeNameValid.value, self.recipeTypeValid.value, self.ingrediantsValid.value, self.stepsValid.value])
+        
+        return ValidationHelper.validate(validations: [self.recipeNameValid.value, self.recipeTypeValid.value, self.ingrediantsValid.value, self.stepsValid.value, self.recipeImageValid.value])
     }
     
 }
