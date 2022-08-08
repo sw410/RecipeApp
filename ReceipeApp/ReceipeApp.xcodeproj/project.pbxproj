@@ -10,6 +10,7 @@
 		83D52578B825E3D91B48B2A9 /* Pods_ReceipeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F11C3ED559C6DDCB202D5C90 /* Pods_ReceipeApp.framework */; };
 		977CF4A508690D1E0A20AA91 /* Pods_ReceipeApp_ReceipeAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66873442343C85ECF8B0D4F4 /* Pods_ReceipeApp_ReceipeAppUITests.framework */; };
 		DFACFD1561BFA67F546471C2 /* Pods_ReceipeAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B73D1186F69B4497BC1DD9 /* Pods_ReceipeAppTests.framework */; };
+		F310A86128A0DE1A00ADE721 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F310A86028A0DE1A00ADE721 /* UITableViewCell+Extension.swift */; };
 		F331F5AA289DED19005EF74F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F331F5A9289DED19005EF74F /* Date+Extension.swift */; };
 		F331F5AD289DF20C005EF74F /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F331F5AC289DF20C005EF74F /* RecipeModel.swift */; };
 		F331F5B1289DFC91005EF74F /* RecipeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F331F5AF289DFC91005EF74F /* RecipeDetailController.swift */; };
@@ -39,7 +40,6 @@
 		F39BEF08289D041700446416 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F39BEF07289D041700446416 /* Poppins-SemiBold.ttf */; };
 		F39BEF0A289D041E00446416 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F39BEF09289D041E00446416 /* Poppins-Regular.ttf */; };
 		F39BEF10289D049500446416 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BEF0F289D049500446416 /* UIFont+Extension.swift */; };
-		F39BEF12289D04B900446416 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BEF11289D04B900446416 /* UITableViewCell+Extension.swift */; };
 		F39BEF14289D04C600446416 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BEF13289D04C600446416 /* String+Extension.swift */; };
 		F39BEF1A289D068200446416 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BEF18289D068200446416 /* RealmManager.swift */; };
 		F39BEF1B289D068200446416 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BEF19289D068200446416 /* Repository.swift */; };
@@ -98,6 +98,7 @@
 		D4EDD124DB2637596EC25BCA /* Pods-ReceipeApp-ReceipeAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceipeApp-ReceipeAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-ReceipeApp-ReceipeAppUITests/Pods-ReceipeApp-ReceipeAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E9AA839C4D6079F9AE762936 /* Pods-ReceipeAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceipeAppTests.debug.xcconfig"; path = "Target Support Files/Pods-ReceipeAppTests/Pods-ReceipeAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F11C3ED559C6DDCB202D5C90 /* Pods_ReceipeApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceipeApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F310A86028A0DE1A00ADE721 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		F331F5A9289DED19005EF74F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		F331F5AC289DF20C005EF74F /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		F331F5AF289DFC91005EF74F /* RecipeDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailController.swift; sourceTree = "<group>"; };
@@ -131,7 +132,6 @@
 		F39BEF07289D041700446416 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		F39BEF09289D041E00446416 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		F39BEF0F289D049500446416 /* UIFont+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
-		F39BEF11289D04B900446416 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableViewCell+Extension.swift"; path = "../../../../DoodaTalk_iOS/doodatalk/Extension/UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		F39BEF13289D04C600446416 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		F39BEF18289D068200446416 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F39BEF19289D068200446416 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
@@ -297,7 +297,6 @@
 		F39BEEEA289D011300446416 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				F39BEF11289D04B900446416 /* UITableViewCell+Extension.swift */,
 				F39BEF0F289D049500446416 /* UIFont+Extension.swift */,
 				F39BEEEB289D011E00446416 /* RxSwift */,
 				F39BEF13289D04C600446416 /* String+Extension.swift */,
@@ -305,6 +304,7 @@
 				F39BEF43289D1E7900446416 /* UIView+Extension.swift */,
 				F331F5A9289DED19005EF74F /* Date+Extension.swift */,
 				F331F5B6289E00E0005EF74F /* UILabel+Extension.swift */,
+				F310A86028A0DE1A00ADE721 /* UITableViewCell+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -792,7 +792,6 @@
 				F39BEF24289D072300446416 /* BaseViewModel.swift in Sources */,
 				F3B3C8B8289D383F0064CB72 /* CommonDropDownView.swift in Sources */,
 				F39BEF10289D049500446416 /* UIFont+Extension.swift in Sources */,
-				F39BEF12289D04B900446416 /* UITableViewCell+Extension.swift in Sources */,
 				F39BEEEE289D014000446416 /* Observable+Operators.swift in Sources */,
 				F39BEF26289D073200446416 /* BaseViewController.swift in Sources */,
 				F39BEEF1289D014700446416 /* RxSwift+Realm.swift in Sources */,
@@ -821,6 +820,7 @@
 				F39BEF32289D0BD000446416 /* RecipeListVM.swift in Sources */,
 				F3B3C8C3289D55770064CB72 /* NewRecipeVM.swift in Sources */,
 				F39BEEF5289D015800446416 /* RxUnits.swift in Sources */,
+				F310A86128A0DE1A00ADE721 /* UITableViewCell+Extension.swift in Sources */,
 				F39BEF28289D07BE00446416 /* BaseNavigationController.swift in Sources */,
 				F39BEEF3289D015200446416 /* RxSwift+Button.swift in Sources */,
 				F39BEEEF289D014000446416 /* ErrorTracker.swift in Sources */,
